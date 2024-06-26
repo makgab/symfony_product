@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} PRODUCT {% endblock %}
+
+{% block body %}
+ {% for product in product %}
+ <h1>Product entry</h1>
+ <h2>name: {{ product.name }}</h2>
+ <p>price: {{ product.price }}</p>
+  <a href="/product/edit/{{product.id}}">Edit</a> <a href="/product/del/{{product.id}}">Delete</a>
+ <hr>
+ {% endfor %}
+ <a href="/product">Go Back</a>
+ <br>
+ <a href="/product/new">Add new product</a>
+{% endblock %}
