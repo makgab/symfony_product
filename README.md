@@ -37,6 +37,7 @@
  - ( php bin/console make:migration )
  - php bin/console doctrine:migrations:migrate
  - php bin/console make:controller ProductController
+ - php bin/console make:form
  - php bin/console dbal:run-sql 'SELECT * FROM product'
  - php bin/console debug:router
  - Run server:
