@@ -24,7 +24,6 @@ class ProductController extends AbstractController
         } else {
             return $this->render('product/index.html.twig', ['product' => $product]);
         }
-        
     }
 
 
