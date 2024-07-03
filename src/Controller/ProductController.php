@@ -57,19 +57,24 @@ class ProductController extends AbstractController
         $entityManager = $doctrine->getManager();
         $product = $entityManager->getRepository( Product::class )->find($id);
 
-        if ( !$product) {
+        if ( !$product ) {
             return $this->render('product/noindex.html.twig', [
                 'product' => 'product',
             ]);
             exit();
         }
-        $text = $product->getName();
-        // remove
-        $entityManager->remove($product);
-        // save / delete
-        $entityManager->flush();
-
-        return new Response( 'Product deleted: ' . $text . '<br><a href="/product">Index</a>' );
+        # FORM -------------------------------------------------------------------------
+        $form = $this->createForm( ProductType::class, $product );
+        $form->handleRequest($request);
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            // data to doctrine entitymanager
+            $entityManager->remove( $product );
+            // save data
+            $entityManager->flush();
+            return $this->redirectToRoute('app_product');
+        }
+        # -------------------------------------------------------------------------------
+        return $this->render( 'product/del.html.twig', ['form'=>$form->createView()] );
     }
 
 
@@ -96,6 +101,6 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('app_product');
         }
         # -------------------------------------------------------------------------------
-        return $this->render( 'product/new.html.twig', ['form'=>$form->createView()] );
+        return $this->render( 'product/edit.html.twig', ['form'=>$form->createView()] );
     }
 }
